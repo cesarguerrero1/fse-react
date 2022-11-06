@@ -1,9 +1,15 @@
-import {
-  createUser,
-  deleteUsersByUsername, findAllUsers,
-  findUserById
-} from "../services/users-service";
+/*
+ * Cesar Guerrero
+ * CS5500 - Fall 2022
+ * 11/5/22
+ * Code Provided by Professor and modified as needed
+ */
 
+import {createUser, deleteUsersByUsername, findAllUsers, findUserById} from "../services/users-service.js";
+
+/**
+ * Describe is a JEST function that allows you to be group together several tests
+ */
 describe('createUser', () => {
   // sample user to insert
   const ripley = {
@@ -65,7 +71,7 @@ describe('deleteUsersByUsername', () => {
   });
 });
 
-describe('findUserById',  () => {
+describe('findUserById', () => {
   // sample user we want to retrieve
   const adam = {
     username: 'adam_smith',
@@ -104,8 +110,7 @@ describe('findUserById',  () => {
   });
 });
 
-
-describe('findAllUsers',  () => {
+describe('findAllUsers', () => {
 
   // sample users we'll insert to then retrieve
   const usernames = [
@@ -141,7 +146,8 @@ describe('findAllUsers',  () => {
 
     // let's check each user we inserted
     const usersWeInserted = users.filter(
-      user => usernames.indexOf(user.username) >= 0);
+      user => usernames.indexOf(user.username) >= 0
+    );
 
     // compare the actual users in database with the ones we sent
     usersWeInserted.forEach(user => {
@@ -152,3 +158,4 @@ describe('findAllUsers',  () => {
     });
   });
 });
+
