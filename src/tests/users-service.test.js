@@ -116,26 +116,27 @@ describe('findAllUsers', () => {
   const usernames = [
     "larry", "curley", "moe"
   ];
-
+  
   // setup data before test
-  beforeAll(() =>
-    // insert several known users
-    usernames.map(username =>
-      createUser({
-        username,
+  beforeAll(() => {
+    usernames.map((username) =>{
+      return deleteUsersByUsername(username)
+    });
+
+    usernames.map((username) => {
+      return createUser({
+        username: username,
         password: `${username}123`,
         email: `${username}@stooges.com`
       })
-    )
-  );
+    })
+  })
 
-  // clean up after ourselves
-  afterAll(() =>
-    // delete the users we inserted
-    usernames.map(username =>
-      deleteUsersByUsername(username)
-    )
-  );
+  afterAll(() => {
+    return usernames.map((username) => {
+        deleteUsersByUsername(username);
+    });
+  })
 
   test('can retrieve all users from REST API', async () => {
     // retrieve all the users
@@ -150,12 +151,13 @@ describe('findAllUsers', () => {
     );
 
     // compare the actual users in database with the ones we sent
-    usersWeInserted.forEach(user => {
+    usersWeInserted.map(user => {
       const username = usernames.find(username => username === user.username);
       expect(user.username).toEqual(username);
       expect(user.password).toEqual(`${username}123`);
       expect(user.email).toEqual(`${username}@stooges.com`);
     });
   });
+
 });
 

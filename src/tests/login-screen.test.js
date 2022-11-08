@@ -1,10 +1,11 @@
+
 import axios from 'axios';
 import {
   createUser,
   deleteUsersByUsername, findAllUsers,
   findUserById
 } from "../services/users-service";
-import services from "./services";
+import services from "../services/services.js";
 import {Login} from "../components/profile/login";
 import {act, fireEvent, render, screen, waitFor} from "@testing-library/react";
 import {HashRouter} from "react-router-dom";

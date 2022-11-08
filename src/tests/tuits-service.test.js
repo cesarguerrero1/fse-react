@@ -20,9 +20,9 @@ describe('User Creates a New Tuit', () => {
   let newTuitID = '';
 
   //Make sure the user doesn't exist!
-  beforeAll(() => {
-    deleteUsersByUsername(newUser.username);
-  })
+  beforeAll(() => 
+    deleteUsersByUsername(newUser.username)
+  )
 
   //Delete the User and the Tuit
   afterAll(() => {
@@ -59,8 +59,8 @@ describe('Delete a given Tuit', () => {
   let newTuitID = '';
 
   //Make sure the user doesn't exist!
-  beforeAll(() => {
-    deleteUsersByUsername(newUser.username);
+  beforeAll(() =>{
+    return deleteUsersByUsername(newUser.username)
   })
 
   //Delete the User and the Tuit
@@ -99,14 +99,14 @@ describe('User can see all of their tuits', () => {
     let newTuitIDs = [];
 
     //Make sure the user doesn't exist!
-    beforeAll(() => {
-      deleteUsersByUsername(daemon.username);
+    beforeAll(() =>{
+      return deleteUsersByUsername(daemon.username)
     })
 
     //Delete the User and the Tuit
     afterAll(() => {
       deleteUsersByUsername(daemon.username);
-      newTuitIDs.forEach((tid) => {
+      newTuitIDs.map((tid) => {
           deleteTuit(tid);
       })
       
@@ -128,7 +128,7 @@ describe('User can see all of their tuits', () => {
 
       let allUserTuits = await findTuitsByUser(createdUser._id);
 
-      allUserTuits.forEach((tuit) => {
+      allUserTuits.map((tuit) => {
           //Recall that the way our data is setup, calling findTuitsByUser()
           //will send the user object itself into the 'postedBy' field
           expect(tuit.postedBy._id).toEqual(userID);
@@ -150,7 +150,7 @@ describe('Find a given Tuit by its ID', () => {
 
     //Setup
     beforeAll(() => {
-        deleteUsersByUsername(rhaenyra.username);
+      return deleteUsersByUsername(rhaenyra.username)
     })
 
     //Clean up
@@ -196,7 +196,7 @@ describe('can retrieve all tuits with REST API', () => {
     const tuitIDs = []
 
     beforeAll(() => {
-      usernames.map(username => {
+      return usernames.map(username => {
           createUser({
             username,
             password: `${username}1`,
@@ -208,12 +208,12 @@ describe('can retrieve all tuits with REST API', () => {
     afterAll(() => {
         //Delete the users
         usernames.map(username => {
-          deleteUsersByUsername(username);
+          return deleteUsersByUsername(username);
         })
 
         //Delete the tweets
-        tuitIDs.forEach((tuitID) => {
-            deleteTuit(tuitID);
+        tuitIDs.map((tuitID) => {
+            return deleteTuit(tuitID);
         })
     })
     
@@ -244,7 +244,7 @@ describe('can retrieve all tuits with REST API', () => {
             tuitIDs.indexOf(tuit._id) >= 0
         })
 
-        insertedTuits.forEach((tuit) => {
+        insertedTuits.map((tuit) => {
           //User the username associaed with the given tweet to find it within the array we used
           const username = usernames.find(username => username === tuit.postedBy.username);
           expect(tuit.postedBy.username).toEqual(username);

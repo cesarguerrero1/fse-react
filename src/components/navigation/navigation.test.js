@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {fireEvent, render, screen, click} from '@testing-library/react';
 import Navigation from "./index";
@@ -36,8 +37,7 @@ describe('test links', () => {
             // get all the line items
             const lis = document.querySelectorAll("li");
             // the line item should have class fw-bold to highlight
-            expect(lis[nth].className
-                .indexOf('fw-bold') >= 0).toBe(true);
+            expect(lis[nth].className.indexOf('fw-bold') >= 0).toBe(true);
         });
     })
     // const a = document.querySelector("a")
