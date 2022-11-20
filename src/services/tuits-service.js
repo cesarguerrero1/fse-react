@@ -4,7 +4,11 @@ const TUITS_API = `${BASE_URL}/tuits`;
 const USERS_API = `${BASE_URL}/users`;
 
 const api = axios.create({
-  withCredentials: true
+  withCredentials: true,
+  headers:{
+    "Access-Control-Allow-Origin": "*"
+  }
+  
 })
 
 export const findAllTuits = () =>
