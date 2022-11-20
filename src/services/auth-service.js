@@ -22,7 +22,6 @@ export const signup = async (user) => {
 
 export const profile = async () => {
     const response = await api.post(`${AUTH_API}/profile`);
-    console.log(response.data);
     return response.data;
 }
 

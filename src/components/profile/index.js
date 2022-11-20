@@ -13,6 +13,7 @@ const Profile = () => {
   const isLoggedIn = async() => {
     try{
       const user = await authService.profile();
+      console.log(user);
       setProfile(user);
     }catch(e){
       navigate("/login")

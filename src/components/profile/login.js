@@ -12,8 +12,7 @@ export const Login = () => {
   
   const login = async () => {
     try{
-        const response = await authService.login(loginUser);
-        console.log(response);
+        await authService.login(loginUser);
         navigate('/profile/mytuits');
     }catch{
       alert("Either your credentials are incorrect or the user does not exist!");
