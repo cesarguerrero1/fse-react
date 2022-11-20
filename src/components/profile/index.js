@@ -22,7 +22,7 @@ const Profile = () => {
   useEffect(() => {
     //If the service isn't able to confirm that there is an active user in the session, then redirect to login page!
     isLoggedIn();
-  }, [isLoggedIn]);
+  }, []);
 
   //Clean up when you logout!
   const logout = () => {
