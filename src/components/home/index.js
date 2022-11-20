@@ -47,7 +47,7 @@ const Home = () => {
         { isLoggedIn &&
           <div className="d-flex">
             <div className="p-2">
-              <img className="ttr-width-50px rounded-circle"
+              <img alt="Profile Circle" className="ttr-width-50px rounded-circle"
                 src="../images/nasa-logo.jpg" />
             </div>
             <div className="p-2 w-100">
