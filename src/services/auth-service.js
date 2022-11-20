@@ -20,8 +20,10 @@ export const signup = async (user) => {
     return response.data;
 }
 
-export const profile = () => {
-    return api.post(`${AUTH_API}/profile`).then(response => response.data);
+export const profile = async () => {
+    const response = await api.post(`${AUTH_API}/profile`);
+    console.log(response.data);
+    return response.data;
 }
 
 export const logout = (user) => {
