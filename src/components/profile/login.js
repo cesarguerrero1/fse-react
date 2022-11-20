@@ -1,72 +1,40 @@
-import {Link, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {useState, useEffect} from "react";
 import * as service from "../../services/users-service";
-import React from "react";
-import {UserList} from "./user-list";
+import * as authService from "../../services/auth-service.js";
+import Signup from "./signup.js";
+import UserList from "./user-list.js"
 
 export const Login = () => {
   const [existingUsers, setExistingUsers] = useState([]);
-    // {username: 'user1', email: 'user1', password: 'user1', _id: '123'}
-  // ]);
-  const [newUser, setNewUser] = useState({});
   const [loginUser, setLoginUser] = useState({});
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
+  
+  const login = async () => {
+    try{
+        await authService.login(loginUser);
+        navigate('/profile/mytuits');
+    }catch{
+      alert("Either your credentials are incorrect or the user does not exist!");
+    }
 
-  const uuu = [
-    {username: 'ellen_ripley', email: 'ellen_ripley', password: 'ellen_ripley', _id: '123'},
-    {username: 'sarah', email: 'ellen_ripley', password: 'ellen_ripley', _id: '234'}
-  ]
+  }
 
-  const deleteUser = (uid) =>
-    service.deleteUser(uid)
-      .then(findAllUsers)
-  const findAllUsers = () =>
-    service.findAllUsers()
-      .then(users => {
-        setExistingUsers(users)
-      })
-  const register = () =>
-    service.createUser(newUser)
-      .then(findAllUsers);
-  const login = () =>
-    service.findUserByCredentials(loginUser)
-      .then((user) => {
-        //navigate(`/home/${user._id}`)
-      });
-  useEffect(findAllUsers, []);
+  const deleteUser = (uid) => service.deleteUser(uid).then(findAllUsers)
+  const findAllUsers = () => service.findAllUsers().then(users => { setExistingUsers(users) })
+  useEffect(() => {
+    findAllUsers()
+  }, []);
+
   return (
     <div>
-      <h1>Register</h1>
-      <input className="mb-2 form-control"
-             onChange={(e) =>
-               setNewUser({...newUser, username: e.target.value})}
-             placeholder="username"/>
-      <input className="mb-2 form-control"
-             onChange={(e) =>
-               setNewUser({...newUser, password: e.target.value})}
-             placeholder="password" type="password"/>
-      <input className="mb-2 form-control"
-             onChange={(e) =>
-               setNewUser({...newUser, email: e.target.value})}
-             placeholder="email" type="email"/>
-      <button onClick={register} className="btn btn-primary mb-5">Register
-      </button>
-
+      <Signup/>
       <h1>Login</h1>
-      <input className="mb-2 form-control"
-             onChange={(e) =>
-               setLoginUser({...loginUser, username: e.target.value})}
-             placeholder="username"/>
-      <input className="mb-2 form-control"
-             onChange={(e) =>
-               setLoginUser({...loginUser, password: e.target.value})}
-             placeholder="password" type="password"/>
-      <button onClick={login} className="btn btn-primary mb-5">Login</button>
-
-      <h1>Login As</h1>
-
+      <input onChange={(event) => {setLoginUser({...loginUser, username: event.target.value})}}/>
+      <input type="password" onChange={(event) => {setLoginUser({...loginUser, password: event.target.value})}}/>
+      <button className="btn btn-primary fa-pull-right" onClick={login}>Login</button>
+      <h1>Registered Users</h1>
       <UserList users={existingUsers} deleteUser={deleteUser}/>
-
     </div>
   );
 };

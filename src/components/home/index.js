@@ -1,40 +1,49 @@
 import React from "react";
-import Tuits from "../tuits";
-import * as service from "../../services/tuits-service";
+import Tuits from "../tuits/index.js";
+import * as service from "../../services/tuits-service.js";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+let isLoggedIn = false;
 
 const Home = () => {
-  const location = useLocation();
   const { uid } = useParams();
   const [tuits, setTuits] = useState([]);
   const [tuit, setTuit] = useState('');
+
   const userId = uid;
-  const findTuits = () => {
-    if (uid) {
-      return service.findTuitsByUser(uid)
-        .then(tuits => setTuits(tuits))
-    } else {
-      return service.findAllTuits()
-        .then(tuits => setTuits(tuits))
+
+  async function findTuits(){
+    const myTuits = await service.findTuitsByUser("me");
+    if(myTuits[0] === "loggedIn"){
+        setTuits(myTuits[1]);
+        isLoggedIn = true;
+    }else{
+        isLoggedIn = false;
+        const allTuits = await service.findAllTuits();
+        setTuits(allTuits);
     }
   }
-  useEffect(() => {
-    let isMounted = true;
-    findTuits()
-    return () => { isMounted = false; }
-  }, []);
 
-  const createTuit = () => service.createTuitByUser(userId, { tuit: tuit, postedBy: userId }).then(findTuits)
-  
-  const deleteTuit = (tid) => service.deleteTuit(tid).then(findTuits)
+  const deleteTuit = async (tid) => {
+      await service.deleteTuit(tid);
+      findTuits();
+  }
+
+  const createTuit = async () => {
+      await service.createTuitByUser("me", { tuit: tuit, postedBy: userId });
+      findTuits();
+  }
+
+  useEffect(() => {
+      findTuits();
+  }, []);
   
   return (
     <div className="ttr-home">
       <div className="border border-bottom-0">
         <h4 className="fw-bold p-2">Home Screen</h4>
-        {
-          uid &&
+        { isLoggedIn &&
           <div className="d-flex">
             <div className="p-2">
               <img className="ttr-width-50px rounded-circle"
@@ -56,11 +65,11 @@ const Home = () => {
                   <i className="far fa-map-location me-3"></i>
                 </div>
                 <div className="col-2">
-                  <a onClick={createTuit}
+                  <button onClick={createTuit}
                     className={`btn btn-primary rounded-pill fa-pull-right
                                   fw-bold ps-4 pe-4`}>
                     Tuit
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

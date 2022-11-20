@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 export const UserList = ({ users, deleteUser }) => {
   return (
@@ -7,9 +6,7 @@ export const UserList = ({ users, deleteUser }) => {
       {
         users.map(user => {
             return (
-                <Link className="list-group-item"
-                  key={user._id}
-                  to={`/home/${user._id}`}>
+              <div className="list-group-item" key={user._id}>
                   <span className="fs-3">{user.username}</span>
                   <button onClick={(e) => {
                     e.stopPropagation()
@@ -18,9 +15,11 @@ export const UserList = ({ users, deleteUser }) => {
                   }} className="btn btn-danger fa-pull-right">
                     <i className="fas fa-remove"></i>
                   </button>
-                </Link>
+              </div>
             )
         })
       }
     </div>)
 };
+
+export default UserList;
