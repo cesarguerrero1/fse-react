@@ -32,6 +32,7 @@ const Home = () => {
 
   const createTuit = async () => {
       await service.createTuitByUser("me", { tuit: tuit, postedBy: userId });
+      setTuit('');
       findTuits();
   }
 
