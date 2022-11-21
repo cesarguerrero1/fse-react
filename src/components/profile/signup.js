@@ -18,7 +18,7 @@ function Signup(){
     const signup = async () => {
         if(newUser.password && newUser.username && newUser.email){
             try{
-                const response = await authService.signup(newUser);
+                await authService.signup(newUser);
                 navigate("/profile");
             }catch{
                 alert("Username is taken!");

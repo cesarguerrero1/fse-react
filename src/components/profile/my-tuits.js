@@ -26,7 +26,7 @@ function MyTuits(){
     }
 
     return(
-        <Tuits tuits={tuits} deleteTuit={deleteTuit}/>
+        <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findMyTuits}/>
     )
 }
 
