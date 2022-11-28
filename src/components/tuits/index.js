@@ -15,13 +15,22 @@ function Tuits({ tuits = [], deleteTuit, refreshTuits }) {
     return;
   }
 
+  const dislikeTuit = async (tuit) => {
+    try{
+      await likesService.userTogglesTuitDislikes("me", tuit._uid);
+      refreshTuits();
+    }catch(error){
+      alert("You are not allowed to dislike a Tuit if you are not logged in!");
+    }
+  }
+
   return (
     <div>
       <ul className="ttr-tuits list-group">
         {
           tuits.map && tuits.map(tuit => {
             return (
-              <Tuit key={tuit._id} tuit={tuit} deleteTuit={deleteTuit} likeTuit={likeTuit} />
+              <Tuit key={tuit._id} tuit={tuit} deleteTuit={deleteTuit} likeTuit={likeTuit} dislikeTuit={dislikeTuit}/>
             );
           })
         }

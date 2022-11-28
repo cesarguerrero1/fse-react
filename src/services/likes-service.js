@@ -19,3 +19,8 @@ export const userTogglesTuitLikes = async (uid, tid) => {
     const response = await api.put(`${USERS_API}/${uid}/likes/${tid}`);
     return response.data
 }
+
+export const userTogglesTuitDislikes = async(uid, tid) => {
+    const response = await api.put(`${USERS_API}/${uid}/dislikes/${tid}`);
+    return response.data
+}
