@@ -4,10 +4,9 @@ import * as authService from "../../services/auth-service.js";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-let isLoggedIn = false;
-
 const Home = () => {
   const { uid } = useParams();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tuits, setTuits] = useState([]);
   const [tuit, setTuit] = useState('');
 
@@ -21,9 +20,9 @@ const Home = () => {
     //If a user is logged in then let them post tweets
     try{
       await authService.profile();
-      isLoggedIn = true;
+      setIsLoggedIn(true)
     }catch(e){
-      isLoggedIn = false;
+      setIsLoggedIn(false)
     }
     return;
   }
@@ -39,6 +38,7 @@ const Home = () => {
         alert("Please input something before attempting to Tuit");
       }else{
         await service.createTuitByUser("me", { tuit: tuit, postedBy: userId });
+        setTuit('');
         findTuits();
       }
       return;
@@ -59,7 +59,7 @@ const Home = () => {
                 src="../images/nasa-logo.jpg" />
             </div>
             <div className="p-2 w-100">
-              <textarea onChange={(e) => setTuit(e.target.value)} placeholder="What's happening?" className="w-100 border-0"></textarea>
+              <textarea onChange={(e) => setTuit(e.target.value)} placeholder="What's happening?" className="w-100 border-0" value={tuit}></textarea>
               <div className="row">
                 <div className="col-10 ttr-font-size-150pc text-primary">
                   <i className="fas fa-portrait me-3"></i>
@@ -70,13 +70,7 @@ const Home = () => {
                   <i className="far fa-map-location me-3"></i>
                 </div>
                 <div className="col-2">
-                  <button onClick={() => {
-                    createTuit();
-                  }}
-                    className={`btn btn-primary rounded-pill fa-pull-right
-                                  fw-bold ps-4 pe-4`}>
-                    Tuit
-                  </button>
+                  <button onClick={() => { createTuit() }} className={`btn btn-primary rounded-pill fa-pull-right fw-bold ps-4 pe-4`}>Tuit</button>
                 </div>
               </div>
             </div>

@@ -5,19 +5,14 @@ const EditProfile = () => {
     return(
       <div className="ttr-edit-profile">
           <div className="border border-bottom-0">
-              <Link to="/profile" className="btn btn-light rounded-pill fa-pull-left fw-bolder mt-2 mb-2 ms-2">
-                  <i className="fa fa-close"></i>
-              </Link>
-              <Link to="/profile" className="btn btn-dark rounded-pill fa-pull-right fw-bolder mt-2 mb-2 me-2">
-                  Save
-              </Link>
+              <Link to="/profile" className="btn btn-light rounded-pill fa-pull-left fw-bolder mt-2 mb-2 ms-2"><i className="fa fa-close"></i></Link>
+              <Link to="/profile" className="btn btn-dark rounded-pill fa-pull-right fw-bolder mt-2 mb-2 me-2">Save</Link>
               <h4 className="p-2 mb-0 pb-0 fw-bolder">Edit profile</h4>
               <div className="mb-5 position-relative">
                   <img alt="Header" className="w-100" src="../images/nasa-profile-header.jpg"/>
                   <div className="bottom-0 left-0 position-absolute">
                       <div className="position-relative">
-                          <img alt="Profile Circle" className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px"
-                               src="../images/nasa-3.png"/>
+                          <img alt="Profile Circle" className="position-relative ttr-z-index-1 ttr-top-40px ttr-width-150px" src="../images/nasa-3.png"/>
                       </div>
                   </div>
               </div>
@@ -107,7 +102,8 @@ const EditProfile = () => {
                      name="topics"/>
               <label for="politics">Politics</label>
             </div>
-        </form></div>
+        </form>
+      </div>
     );
 };
 export default EditProfile;

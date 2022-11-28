@@ -12,18 +12,21 @@ import Tuits from "../tuits/index.js";
 
 function MyTuits(){
     const [tuits, setTuits] = useState([]);
-    const findMyTuits = async () => {
+
+    async function findMyTuits(){
         const myTuits = await service.findTuitsByUser("me");
+        //Our request is returning an array with a response string and and array of the tuits if they exist
         setTuits(myTuits[1]);
     }
-    useEffect(() => {
-        findMyTuits()
-    }, []);
 
-    const deleteTuit = async (tid) => {
+    async function deleteTuit(tid){
         await service.deleteTuit(tid);
         findMyTuits();
     }
+
+    useEffect(() => {
+        findMyTuits()
+    }, []);
 
     return(
         <Tuits tuits={tuits} deleteTuit={deleteTuit} refreshTuits={findMyTuits}/>
