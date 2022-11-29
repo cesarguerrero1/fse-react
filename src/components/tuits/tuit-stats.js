@@ -1,6 +1,6 @@
 import React from "react";
 
-const TuitStats = ({tuit, likeTuit, dislikeTuit}) => {
+const TuitStats = ({tuit, handleLikeEvent}) => {
 
   return (
     <div className="row mt-2">
@@ -13,12 +13,12 @@ const TuitStats = ({tuit, likeTuit, dislikeTuit}) => {
         {tuit.stats.retuits}
       </div>
       <div className="col">
-        <span onClick={() => likeTuit(tuit)}>
+        <span onClick={() => handleLikeEvent(tuit, 'like')}>
           <i className="far fa-thumbs-up me-1"/>{tuit.stats.likes}
         </span>
       </div>
       <div className="col">
-        <span onClick={() => dislikeTuit(tuit)}>
+        <span onClick={() => handleLikeEvent(tuit, 'dislike')}>
           <i className="far fa-thumbs-down me-1"/>{tuit.stats.dislikes}
         </span>
       </div>

@@ -15,12 +15,7 @@ const api = axios.create({
     withCredentials: true
 });
 
-export const userTogglesTuitLikes = async (uid, tid) => {
-    const response = await api.put(`${USERS_API}/${uid}/likes/${tid}`);
-    return response.data
-}
-
-export const userTogglesTuitDislikes = async(uid, tid) => {
-    const response = await api.put(`${USERS_API}/${uid}/dislikes/${tid}`);
+export const userTogglesLikeEvent = async (uid, tid, eventType) => {
+    const response = await api.put(`${USERS_API}/${uid}/likes/${tid}?eventType=${eventType}`);
     return response.data
 }
