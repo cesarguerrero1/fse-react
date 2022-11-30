@@ -1,5 +1,6 @@
 import Tuits from "../tuits/index.js";
-import * as service from "../../services/tuits-service.js";
+import * as likesDislikesService from "../../services/likes-dislikes-service.js";
+import * as tuitService from "../../services/tuits-service.js";
 import * as authService from "../../services/auth-service.js";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -14,21 +15,56 @@ const Home = () => {
 
   //We want to show everyone's Tuits but we only want allow someone to post if they are logged in!
   async function findTuits(){
-    const allTuits = await service.findAllTuits();
-    setTuits(allTuits);
-
     //If a user is logged in then let them post tweets
+    let allTuits = await tuitService.findAllTuits();
+
     try{
       await authService.profile();
-      setIsLoggedIn(true)
+      setIsLoggedIn(true);
+
+      //Grab all of the users likes and dislikes so we can highlight appropriately
+      const usersLikedTuits = await likesDislikesService.findAllTuitsLikedByUser("me");
+      const usersDislikedTuits = await likesDislikesService.findAllTuitsDislikedByUser("me");
+
+      //We have to loop through all of the Likes
+      for(let j = 0; j < usersLikedTuits.length; j++){
+        const tid = usersLikedTuits[j].tuit._id;
+        //Loop over every Tuit that will be displayed
+        for(let i = 0; i < allTuits.length; i++){
+          if(allTuits[i]._id === tid){
+              allTuits[i].liked = true;
+          }
+        }
+      }
+      
+
+      //We have to loop through all of the Dislikes
+      for(let j=0; j < usersDislikedTuits.length; j++){
+        const tid = usersDislikedTuits[j].tuit._id;
+        //Loop over every Tuit that will be displayed
+        for(let i = 0; i < allTuits.length; i++){
+          if(allTuits[i]._id === tid){
+              allTuits[i].disliked = true;
+          }
+        }
+      }
+
     }catch(e){
-      setIsLoggedIn(false)
+      setIsLoggedIn(false);
+      //User is not logged so all Tuits should not have highlights
+      allTuits = allTuits.map((tuit) => {
+        tuit.dislike = false;
+        tuit.like = false;
+        return tuit;
+      })
     }
+
+    setTuits(allTuits);
     return;
   }
 
   const deleteTuit = async (tid) => {
-      await service.deleteTuit(tid);
+      await tuitService.deleteTuit(tid);
       findTuits();
       return;
   }
@@ -37,7 +73,7 @@ const Home = () => {
       if(tuit === ""){
         alert("Please input something before attempting to Tuit");
       }else{
-        await service.createTuitByUser("me", { tuit: tuit, postedBy: userId });
+        await tuitService.createTuitByUser("me", { tuit: tuit, postedBy: userId });
         setTuit('');
         findTuits();
       }

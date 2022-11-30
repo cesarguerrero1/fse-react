@@ -14,12 +14,12 @@ const TuitStats = ({tuit, handleLikeEvent}) => {
       </div>
       <div className="col">
         <span onClick={() => handleLikeEvent(tuit, 'like')}>
-          <i className="far fa-thumbs-up me-1"/>{tuit.stats.likes}
+          <i className={`far fa-thumbs-up me-1 ${tuit.liked ? "text-danger" : ""}`}/>{tuit.stats.likes}
         </span>
       </div>
       <div className="col">
         <span onClick={() => handleLikeEvent(tuit, 'dislike')}>
-          <i className="far fa-thumbs-down me-1"/>{tuit.stats.dislikes}
+          <i className={`far fa-thumbs-down me-1 ${tuit.disliked ? "text-danger" : ""}`}/>{tuit.stats.dislikes}
         </span>
       </div>
       <div className="col">

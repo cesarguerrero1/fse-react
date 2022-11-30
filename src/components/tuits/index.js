@@ -8,9 +8,9 @@ function Tuits({ tuits = [], deleteTuit, refreshTuits }) {
   //Essentially what we are doing is handling a like event and then checking it if is a 'like' or 'dislike' event
   const handleLikeEvent = async(tuit, eventType) => {
       try{
-        if(eventType === "likes"){
+        if(eventType === "like"){
           await likesDislikesService.userTogglesLikeEvent("me", tuit._id);
-        }else if(eventType === "dislikes"){
+        }else if(eventType === "dislike"){
           await likesDislikesService.userTogglesDislikeEvent("me", tuit._id);
         }
         refreshTuits();

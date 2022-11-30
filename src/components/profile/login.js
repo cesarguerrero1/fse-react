@@ -13,7 +13,7 @@ export const Login = () => {
   async function login(){
       try{
           await authService.login(loginUser);
-          setTimeout(() => {navigate('/profile/mytuits')}, 1000);
+          setTimeout(() => {navigate('/profile/mytuits')}, 2000);
       }catch{
         alert("Either your credentials are incorrect or the user does not exist!");
       }

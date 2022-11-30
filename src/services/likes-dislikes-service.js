@@ -34,4 +34,15 @@ export const userTogglesLikeEvent = async (uid, tid) => {
  */
 export const userTogglesDislikeEvent = async (uid, tid) => {
     const response = await api.put(`${USERS_API}/${uid}/dislikes/${tid}`);
+    return response.data
+}
+
+export const findAllTuitsLikedByUser = async (uid) => {
+    const response = await api.get(`${USERS_API}/${uid}/likes`);
+    return response.data
+}
+
+export const findAllTuitsDislikedByUser = async (uid) => {
+    const response = await api.get(`${USERS_API}/${uid}/dislikes`);
+    return response.data
 }
