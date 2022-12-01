@@ -10,18 +10,26 @@ export const Login = () => {
   const [loginUser, setLoginUser] = useState({});
   const navigate = useNavigate();
   
-  const login = async () => {
-    try{
-        await authService.login(loginUser);
-        navigate('/profile/mytuits');
-    }catch{
-      alert("Either your credentials are incorrect or the user does not exist!");
-    }
-
+  async function login(){
+      try{
+          await authService.login(loginUser);
+          setTimeout(() => {navigate('/profile/mytuits')}, 2000);
+      }catch{
+        alert("Either your credentials are incorrect or the user does not exist!");
+      }
   }
 
-  const deleteUser = (uid) => service.deleteUser(uid).then(findAllUsers)
-  const findAllUsers = () => service.findAllUsers().then(users => { setExistingUsers(users) })
+  async function findAllUsers(){
+      const users = await service.findAllUsers();
+      setExistingUsers(users);
+  }
+
+  async function deleteUser(uid){
+      await service.deleteUser(uid);
+      findAllUsers();
+  }
+
+  //On page load we want to show all the users in the database
   useEffect(() => {
     findAllUsers()
   }, []);

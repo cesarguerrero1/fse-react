@@ -15,12 +15,13 @@ function Signup(){
     const navigate = useNavigate();
 
     //When they click the signup button try to use their information to make an account!
-    const signup = async () => {
+    async function signup(){
         if(newUser.password && newUser.username && newUser.email){
             try{
                 await authService.signup(newUser);
-                navigate("/profile");
+                setTimeout(() => { navigate("/profile")}, 1000)
             }catch{
+                //This will run if we get a 403 Error from the server
                 alert("Username is taken!");
             }
         }else{

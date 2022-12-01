@@ -29,8 +29,9 @@ export const logout = (user) => {
     return api.post(`${AUTH_API}/logout`, user).then(response => response.data);
 }
 
-export const login = (credentials) => {
-    return api.post(`${AUTH_API}/login`, credentials).then(response => response.data);
+export const login = async (credentials) => {
+    const response = await api.post(`${AUTH_API}/login`, credentials);
+    return response.data
 }
 
 

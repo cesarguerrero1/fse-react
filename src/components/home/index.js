@@ -1,13 +1,13 @@
 import Tuits from "../tuits/index.js";
-import * as service from "../../services/tuits-service.js";
+import * as likesDislikesService from "../../services/likes-dislikes-service.js";
+import * as tuitService from "../../services/tuits-service.js";
 import * as authService from "../../services/auth-service.js";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-let isLoggedIn = false;
-
 const Home = () => {
   const { uid } = useParams();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tuits, setTuits] = useState([]);
   const [tuit, setTuit] = useState('');
 
@@ -15,21 +15,56 @@ const Home = () => {
 
   //We want to show everyone's Tuits but we only want allow someone to post if they are logged in!
   async function findTuits(){
-    const allTuits = await service.findAllTuits();
-    setTuits(allTuits);
-
     //If a user is logged in then let them post tweets
+    let allTuits = await tuitService.findAllTuits();
+
     try{
       await authService.profile();
-      isLoggedIn = true;
+      setIsLoggedIn(true);
+
+      //Grab all of the users likes and dislikes so we can highlight appropriately
+      const usersLikedTuits = await likesDislikesService.findAllTuitsLikedByUser("me");
+      const usersDislikedTuits = await likesDislikesService.findAllTuitsDislikedByUser("me");
+
+      //We have to loop through all of the Likes
+      for(let j = 0; j < usersLikedTuits.length; j++){
+        const tid = usersLikedTuits[j].tuit._id;
+        //Loop over every Tuit that will be displayed
+        for(let i = 0; i < allTuits.length; i++){
+          if(allTuits[i]._id === tid){
+              allTuits[i].liked = true;
+          }
+        }
+      }
+      
+
+      //We have to loop through all of the Dislikes
+      for(let j=0; j < usersDislikedTuits.length; j++){
+        const tid = usersDislikedTuits[j].tuit._id;
+        //Loop over every Tuit that will be displayed
+        for(let i = 0; i < allTuits.length; i++){
+          if(allTuits[i]._id === tid){
+              allTuits[i].disliked = true;
+          }
+        }
+      }
+
     }catch(e){
-      isLoggedIn = false;
+      setIsLoggedIn(false);
+      //User is not logged so all Tuits should not have highlights
+      allTuits = allTuits.map((tuit) => {
+        tuit.dislike = false;
+        tuit.like = false;
+        return tuit;
+      })
     }
+
+    setTuits(allTuits);
     return;
   }
 
   const deleteTuit = async (tid) => {
-      await service.deleteTuit(tid);
+      await tuitService.deleteTuit(tid);
       findTuits();
       return;
   }
@@ -38,7 +73,8 @@ const Home = () => {
       if(tuit === ""){
         alert("Please input something before attempting to Tuit");
       }else{
-        await service.createTuitByUser("me", { tuit: tuit, postedBy: userId });
+        await tuitService.createTuitByUser("me", { tuit: tuit, postedBy: userId });
+        setTuit('');
         findTuits();
       }
       return;
@@ -59,7 +95,7 @@ const Home = () => {
                 src="../images/nasa-logo.jpg" />
             </div>
             <div className="p-2 w-100">
-              <textarea onChange={(e) => setTuit(e.target.value)} placeholder="What's happening?" className="w-100 border-0"></textarea>
+              <textarea onChange={(e) => setTuit(e.target.value)} placeholder="What's happening?" className="w-100 border-0" value={tuit}></textarea>
               <div className="row">
                 <div className="col-10 ttr-font-size-150pc text-primary">
                   <i className="fas fa-portrait me-3"></i>
@@ -70,13 +106,7 @@ const Home = () => {
                   <i className="far fa-map-location me-3"></i>
                 </div>
                 <div className="col-2">
-                  <button onClick={() => {
-                    createTuit();
-                  }}
-                    className={`btn btn-primary rounded-pill fa-pull-right
-                                  fw-bold ps-4 pe-4`}>
-                    Tuit
-                  </button>
+                  <button onClick={() => { createTuit() }} className={`btn btn-primary rounded-pill fa-pull-right fw-bold ps-4 pe-4`}>Tuit</button>
                 </div>
               </div>
             </div>
