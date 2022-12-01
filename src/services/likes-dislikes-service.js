@@ -37,11 +37,21 @@ export const userTogglesDislikeEvent = async (uid, tid) => {
     return response.data
 }
 
+/**
+ * When called this function will attempt to find all the Tuits a user has liked
+ * @param {string} uid - User ID to filter through Likes
+ * @returns - An array of Like Records that will contain the user as well as the Tuit
+ */
 export const findAllTuitsLikedByUser = async (uid) => {
     const response = await api.get(`${USERS_API}/${uid}/likes`);
     return response.data
 }
 
+/**
+ * When called this function will attempt to find all the Tuits a user has disliked
+ * @param {string} uid - User ID to filter through Dislikes
+ * @returns - An array of Dislike Records that will contain the user as well as the Tuit
+ */
 export const findAllTuitsDislikedByUser = async (uid) => {
     const response = await api.get(`${USERS_API}/${uid}/dislikes`);
     return response.data
