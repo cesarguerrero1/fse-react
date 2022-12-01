@@ -80,7 +80,7 @@ const Profile = () => {
                   <Link to="/profile/media" className="nav-link">Media</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/profile/likes" className="nav-link">Likes</Link>
+                  <Link to="/profile/mylikes" className="nav-link">Likes</Link>
                 </li>
               </ul>
             </div>
