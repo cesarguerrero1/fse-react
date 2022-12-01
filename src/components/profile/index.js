@@ -6,7 +6,8 @@ import * as authService from "../../services/auth-service.js";
 import MyTuits from "./my-tuits";
 import TuitsAndReplies from "./tuits-and-replies.js";
 import Media from "./media.js";
-import MyLikes from "./my-likes.js"
+import MyLikes from "./my-likes.js";
+import MyDislikes from "./my-dislikes.js";
 
 
 const Profile = () => {
@@ -82,6 +83,9 @@ const Profile = () => {
                 <li className="nav-item">
                   <Link to="/profile/mylikes" className="nav-link">Likes</Link>
                 </li>
+                <li className="nav-item">
+                  <Link to="/profile/mydislikes" className="nav-link">Dislikes</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -92,6 +96,7 @@ const Profile = () => {
             <Route path="/tuits-and-replies" element={<TuitsAndReplies/>}/>
             <Route path="/media" element={<Media/>}/>
             <Route path="/mylikes" element={<MyLikes/>}/>
+            <Route path="/mydislikes" element={<MyDislikes/>}/>
           </Routes>
         </div>
       }
