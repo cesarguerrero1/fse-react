@@ -5,6 +5,13 @@ import * as authService from "../../services/auth-service.js";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
+/**
+ * This function is designed to render the 'home' screen for our application. A user will be able to see a list of Tuits that have been created
+ * and if they are logged in, they will be able to create Tuits as well as interact with them via 'liking' and disliking'
+ * 
+ * Additionally, if you are logged in, the system will also correctly highlight tuits you have 'liked' and 'disliked'
+ * @returns React Element
+ */
 const Home = () => {
   const { uid } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,6 +25,7 @@ const Home = () => {
     //If a user is logged in then let them post tweets
     let allTuits = await tuitService.findAllTuits();
 
+    //NOTE: The system
     try{
       await authService.profile();
       setIsLoggedIn(true);

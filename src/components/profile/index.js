@@ -9,7 +9,14 @@ import Media from "./media.js";
 import MyLikes from "./my-likes.js";
 import MyDislikes from "./my-dislikes.js";
 
-
+/**
+ * This function will render the 'profile' screen for our application. This will only be viewable if a user is 
+ * logged in as demonstrated by the isLoggedIn() function. If you are not logged in you will be forwarded to the login page
+ * 
+ * Notice that in addition to showing the users Tuits, there are tabs where you can see other things, most notably your
+ * 'liked' and 'disliked' Tuits if you have any.
+ * @returns React Element
+ */
 const Profile = () => {
   const [profile, setProfile] = useState({});
 

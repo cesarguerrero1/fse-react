@@ -1,5 +1,12 @@
 import React from "react";
 
+/**
+ * This function is used to house the statistical elements of the Tuit (likes, replies, dislikes, etc.) In oding this we can
+ * declutter the Tuit object and just call this react component. Notice that we are able to use logic to display
+ * highlight colors if a given Tuit is marked as liked or disliked.
+ * @param {*} tuitParameters
+ * @returns React Element
+ */
 const TuitStats = ({tuit, handleLikeEvent}) => {
 
   return (

@@ -11,6 +11,12 @@ import * as service from "../../services/tuits-service.js";
 import * as likesDislikesService from "../../services/likes-dislikes-service.js";
 import Tuits from "../tuits/index.js";
 
+/**
+ * This function renders all of the Tuits for a logged in user. The function will ping the server specifically
+ * for Tuits that this has made. Additionally, like the home screen, this will appropriately highlight whether
+ * this user has 'liked' or 'disliked' their own tuits
+ * @returns React Element
+ */
 function MyTuits(){
     const [tuits, setTuits] = useState([]);
 
