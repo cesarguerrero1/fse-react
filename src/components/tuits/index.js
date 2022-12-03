@@ -16,6 +16,7 @@ function Tuits({ tuits = [], deleteTuit, refreshTuits }) {
       try{
         if(eventType === "like"){
           await likesDislikesService.userTogglesLikeEvent("me", tuit._id);
+          
         }else if(eventType === "dislike"){
           await likesDislikesService.userTogglesDislikeEvent("me", tuit._id);
         }

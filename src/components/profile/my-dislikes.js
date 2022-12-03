@@ -22,13 +22,11 @@ function MyDislikes(){
     //This function will ping the server for all tuits our user has ever disliked
     async function findTuitsIDislike(){
         const dislikeRecords = await likesDislikesService.findAllTuitsDislikedByUser("me");
-
         //Curate records
         const tuits = dislikeRecords.map((record) => {
             record.tuit.disliked=true;
             return record.tuit;
         })
-
         setDislikedTuits(tuits);
     }
 
